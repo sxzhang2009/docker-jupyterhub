@@ -1,0 +1,17 @@
+version: "3"
+services:
+  jupyter-server:
+    image: sxzhang/jupyterhub-server:1.0
+    working_dir: /opt/oauth-server-pg
+    command: ./start.sh
+    ports:
+      - "8000"
+    volumes:
+      - ./notebooks:/notebooks:z # modified here to take into account the new app path
+    environment:
+      OAUTH2_AUTHORIZE_URL: https://oauth_server:1443/oauth2/authorize # used by the web app to initialize the Datadog library
+      OAUTH2_TOKEN_URL: https://oauth_server:1443/oauth2/token
+    networks:
+      - web_net
+networks:
+  web_net:
